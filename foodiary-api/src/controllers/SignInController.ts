@@ -1,10 +1,17 @@
+import { signInSchema } from "../schemas/signInSchema";
 import { HttpRequest, HttpResponse } from "../types/Http";
-import { ok } from "../utils/https";
+import { badRequest, ok } from "../utils/https";
 
 export class SignInController {
-  static async handle(request: HttpRequest): Promise<HttpResponse> {
+  static async handle({ body }: HttpRequest): Promise<HttpResponse> {
+    const { data, success, error } = signInSchema.safeParse(body);
+
+    if (!success) {
+      return badRequest({ errors: error.issues });
+    }
+
     return ok({
-      accessToken: "Token de Acesso",
+      data,
     });
   }
 }
