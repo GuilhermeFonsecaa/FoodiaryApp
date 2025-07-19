@@ -1,10 +1,17 @@
+import { signUpSchema } from "../schemas/signUpSchema";
 import { HttpRequest, HttpResponse } from "../types/Http";
-import { created } from "../utils/https";
+import { badRequest, created } from "../utils/https";
 
 export class SignUpController {
-  static async handle(request: HttpRequest): Promise<HttpResponse> {
+  static async handle({ body }: HttpRequest): Promise<HttpResponse> {
+    const { data, success, error } = signUpSchema.safeParse(body);
+
+    if (!success) {
+      return badRequest({ errors: error.issues });
+    }
+
     return created({
-      accessToken: "SignUp: token de acesso",
+      data,
     });
   }
 }
