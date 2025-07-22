@@ -20,6 +20,7 @@
   "homepage": "https://github.com/GuilhermeFonsecaa/Foodiary#readme",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.152",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.15",
     "drizzle-kit": "^0.31.4",
     "serverless-offline": "^14.4.0",
@@ -30,6 +31,7 @@
     "@neondatabase/serverless": "^1.0.1",
     "bcryptjs": "^3.0.2",
     "drizzle-orm": "^0.44.3",
+    "jsonwebtoken": "^9.0.2",
     "zod": "^4.0.5"
   }
 }

@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { signInSchema } from "../schemas/signInSchema";
+import { sign } from "jsonwebtoken";
 import { HttpRequest, HttpResponse } from "../types/Http";
 import { badRequest, ok, unauthorized } from "../utils/https";
 import { usersTable } from "../db/schema";
@@ -33,8 +34,16 @@ export class SignInController {
       return unauthorized({ error: "Invalid credentials" });
     }
 
+    const accessToken = sign(
+      {
+        sub: user.id,
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: "1d" }
+    );
+
     return ok({
-      user,
+      accessToken,
     });
   }
 }
