@@ -12,6 +12,7 @@ provider:
   architecture: arm64
   environment:
     DATABASE_URL: ${env:DATABASE_URL}
+    JWT_SECRET: ${env:JWT_SECRET}
 
 package:
   individually: true # Invés de gerar um zip de todas as lambdas juntas, zipa cada lambda individualmente
