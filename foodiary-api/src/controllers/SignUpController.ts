@@ -1,10 +1,12 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
+import { sign } from "jsonwebtoken";
 import { usersTable } from "../db/schema";
 import { signUpSchema } from "../schemas/signUpSchema";
 import { HttpRequest, HttpResponse } from "../types/Http";
-import { badRequest, conflict, created } from "../utils/https";
+import { badRequest, conflict, ok } from "../utils/https";
 import { hash } from "bcryptjs";
+import { calculateGoals } from "../lib/calculateGoals";
 
 export class SignUpController {
   static async handle({ body }: HttpRequest): Promise<HttpResponse> {
@@ -27,6 +29,15 @@ export class SignUpController {
 
     const { account, ...rest } = data;
 
+    const goals = calculateGoals({
+      activityLevel: rest.activityLevel,
+      birthDate: new Date(rest.birthDate),
+      gender: rest.gender,
+      goal: rest.goal,
+      height: rest.height,
+      weight: rest.weight,
+    });
+
     const hashedPassword = await hash(account.password, 10);
 
     const [user] = await db
@@ -34,18 +45,23 @@ export class SignUpController {
       .values({
         ...account,
         ...rest,
+        ...goals,
         password: hashedPassword,
-        calories: 0,
-        carbohydrates: 0,
-        fats: 0,
-        proteins: 0,
       })
       .returning({
         id: usersTable.id,
       });
 
-    return created({
-      userId: user.id,
+    const accessToken = sign(
+      {
+        sub: user.id,
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: "1d" }
+    );
+
+    return ok({
+      accessToken,
     });
   }
 }
