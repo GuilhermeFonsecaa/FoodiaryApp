@@ -6,6 +6,7 @@ import { HttpRequest, HttpResponse } from "../types/Http";
 import { badRequest, ok, unauthorized } from "../utils/https";
 import { usersTable } from "../db/schema";
 import { compare } from "bcryptjs";
+import { signAccessTokenFor } from "../lib/jwt";
 
 export class SignInController {
   static async handle({ body }: HttpRequest): Promise<HttpResponse> {
@@ -34,13 +35,7 @@ export class SignInController {
       return unauthorized({ error: "Invalid credentials" });
     }
 
-    const accessToken = sign(
-      {
-        sub: user.id,
-      },
-      process.env.JWT_SECRET!,
-      { expiresIn: "1d" }
-    );
+    const accessToken = signAccessTokenFor(user.id);
 
     return ok({
       accessToken,
