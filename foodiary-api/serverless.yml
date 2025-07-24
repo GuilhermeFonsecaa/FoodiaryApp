@@ -50,3 +50,10 @@ functions:
       - httpApi:
           path: /meals
           method: POST
+
+  listMeals:
+    handler: src/functions/listMeals.handler
+    events:
+      - httpApi:
+          path: /meals
+          method: GET
