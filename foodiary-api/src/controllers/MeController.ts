@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { usersTable } from "../db/schema";
-import { HttpRequest, HttpResponse, ProtectedHttpRequest } from "../types/Http";
+import { HttpResponse, ProtectedHttpRequest } from "../types/Http";
 import { ok } from "../utils/https";
 
 export class MeController {

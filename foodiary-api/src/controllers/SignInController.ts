@@ -1,7 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { signInSchema } from "../schemas/signInSchema";
-import { sign } from "jsonwebtoken";
 import { HttpRequest, HttpResponse } from "../types/Http";
 import { badRequest, ok, unauthorized } from "../utils/https";
 import { usersTable } from "../db/schema";
