@@ -13,6 +13,14 @@ provider:
   environment:
     DATABASE_URL: ${env:DATABASE_URL}
     JWT_SECRET: ${env:JWT_SECRET}
+    BUCKET_NAME: !Ref UploadsBucket
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+          Resource: !Sub '${UploadsBucket.Arn}/*' # !Sub -> usado para interpolar 
 
 package:
   individually: true # Invés de gerar um zip de todas as lambdas juntas, zipa cada lambda individualmente
@@ -64,3 +72,10 @@ functions:
       - httpApi:
           path: /meals/{mealId}
           method: GET
+
+resources:
+  Resources:
+    UploadsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: foodiary-app-upload-files
