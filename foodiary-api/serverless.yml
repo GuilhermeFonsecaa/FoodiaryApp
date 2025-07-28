@@ -20,7 +20,7 @@ provider:
         - Effect: Allow
           Action:
             - s3:PutObject
-          Resource: !Sub '${UploadsBucket.Arn}/*' # !Sub -> usado para interpolar 
+          Resource: !Sub "${UploadsBucket.Arn}/*" # !Sub -> usado para interpolar
 
 package:
   individually: true # Invés de gerar um zip de todas as lambdas juntas, zipa cada lambda individualmente
@@ -73,9 +73,32 @@ functions:
           path: /meals/{mealId}
           method: GET
 
+  fileUploadedEvent:
+    handler: src/functions/fileUploadedEvent.handler
+    events:
+      - s3:
+          bucket: !Ref UploadsBucket
+          event: s3:ObjectCreated:*
+          existing: true
+          forceDeploy: true
+
 resources:
   Resources:
     UploadsBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: foodiary-app-upload-files
+
+    MealsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: meals-queue
+        VisibilityTimeout: 60 #Define, em segundos, por quanto tempo a mensagem fica invisível após ser recebida (se a aplicação não excluí‑la com sucesso, ela reaparece na fila passado esse tempo, pois provavelmente deu algum erro).
+        RedrivePolicy:
+          maxReceiveCount: 1 #Não deu certo na primeira vez faz o redrive
+          deadLetterTargetArn: !GetAtt MealsDLQ.Arn
+
+    MealsDLQ: #Dead Letter Queue(DLQ)
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: meals-queue-dlq
