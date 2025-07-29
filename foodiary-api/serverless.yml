@@ -87,6 +87,13 @@ functions:
           existing: true
           forceDeploy: true
 
+  processMeal: 
+    handler: src/functions/processMeal.handler
+    events: 
+      - sqs: 
+          arn: !GetAtt MealsQueue.Arn
+          batchSize: 1 #Quando uma mensagem chegar na fila MealsQueue, envia 1 mensagem por vez para a função Lambda
+
 resources:
   Resources:
     UploadsBucket:
