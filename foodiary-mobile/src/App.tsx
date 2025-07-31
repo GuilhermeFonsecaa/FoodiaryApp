@@ -9,11 +9,8 @@ import {
   useFonts,
 } from "@expo-google-fonts/host-grotesk";
 import { useEffect } from "react";
-import { HomeHeader } from "./components/HomeHeader";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { DateSwitcher } from "./components/DateSwitcher";
-import { DailyStats } from "./components/DailyStats";
-import { MealsList } from "./components/MealsList";
+import { Home } from "./screens/Home";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,18 +35,7 @@ export default function App() {
   return (
     <View className="bg-white flex-1">
       <SafeAreaProvider>
-        <HomeHeader />
-        <DateSwitcher />
-        <View className="mt-2">
-          <DailyStats
-            calories={{ current: 1500, goal: 2500 }}
-            proteins={{ current: 1500, goal: 2500 }}
-            fats={{ current: 1500, goal: 2500 }}
-            carbohydrates={{ current: 1500, goal: 2500 }}
-          />
-        </View>
-        <View className="h-px bg-gray-200 mt-5"/>
-        <MealsList/>
+        <Home />
       </SafeAreaProvider>
     </View>
   );
