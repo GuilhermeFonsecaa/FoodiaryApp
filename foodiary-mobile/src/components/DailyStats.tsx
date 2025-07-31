@@ -115,7 +115,7 @@ export function DailyStats({
         </View>
       </View>
 
-      <View className="p-4 w-full flex-row items-center justify-between">
+      <View className="p-4 gap-0.5 w-full flex-row items-center justify-between">
         <View className="items-center w-1/3 justify-center">
           <Text className="font-sans-bold text-support-teal text-base">
             {Math.round(proteins.current)}g
