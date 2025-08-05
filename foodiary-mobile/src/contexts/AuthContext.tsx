@@ -9,7 +9,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
-    <AuthContext.Provider value={{ isLoggedIn: true, isLoading: false }}>
+    <AuthContext.Provider value={{ isLoggedIn: false, isLoading: false }}>
       {children}
     </AuthContext.Provider>
   );
