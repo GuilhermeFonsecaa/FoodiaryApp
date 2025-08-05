@@ -1,7 +1,7 @@
 import {  View } from "react-native";
-import { HomeHeader } from "../components/HomeHeader";
-import { MealsList } from "../components/MealsList";
-import { CreateMealBottomBar } from "../components/CreateMealBottomBar";
+import { MealsList } from "../../components/MealsList";
+import { CreateMealBottomBar } from "../../components/CreateMealBottomBar";
+import { HomeHeader } from "../../components/HomeHeader";
 
 export default function Page() {
   return (
