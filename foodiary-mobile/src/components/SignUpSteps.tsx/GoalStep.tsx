@@ -1,9 +1,9 @@
 import { OptionsSelector } from "../OptionsSelector";
 import { Controller, useFormContext } from "react-hook-form";
-import { signupSchemaType } from "../../schemas/signupSchema";
+import { signUpSchema, signUpSchemaType } from "../../schemas/signupSchema";
 
 export function GoalStep() {
-  const form = useFormContext<signupSchemaType>();
+  const form = useFormContext<signUpSchemaType>();
 
   return (
     <Controller
@@ -34,7 +34,7 @@ export function GoalStep() {
             },
           ]}
         />
-        
+
       )}
     />
   );
