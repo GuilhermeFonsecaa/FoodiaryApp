@@ -18,13 +18,15 @@ export default function SignIn() {
     },
   });
 
-  const handleSubmit = form.handleSubmit((formData) => {});
+  const handleSubmit = form.handleSubmit((formData) => {
+    console.log(JSON.stringify(formData, null, 2));
+  });
 
   return (
     <AuthLayout
       icon="👤"
       title="Entre em sua conta"
-      subtitle="Acesse sua conta"
+      subtitle="Acesse sua conta para continuar"
     >
       <View className="justify-between flex-1">
         <View className="gap-6">
@@ -66,7 +68,7 @@ export default function SignIn() {
           <Button onPress={router.back} size="icon" color="gray">
             <ArrowLeftIcon size={20} color={colors.black[700]} />
           </Button>
-          <Button className="flex-1">Entrar</Button>
+          <Button onPress={handleSubmit} className="flex-1">Entrar</Button>
         </View>
       </View>
     </AuthLayout>
