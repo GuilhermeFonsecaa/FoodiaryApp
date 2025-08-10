@@ -7,9 +7,17 @@ import { colors } from "../../styles/colors";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react-native";
 import { Button } from "../../components/Button";
 import { router } from "expo-router";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signupSchema } from "../../schemas/signupSchema";
 
 export default function SignUp() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+
+  const form = useForm({
+    resolver: zodResolver(signupSchema),
+  });
+
   const steps = [
     {
       icon: "🎯",
@@ -46,8 +54,9 @@ export default function SignUp() {
       subtitle={currentStep.subtitle}
     >
       <View className="justify-between flex-1">
-        <currentStep.Component />
-
+        <FormProvider {...form}>
+          <currentStep.Component />
+        </FormProvider>
         <View className="flex-row gap-6 justify-between">
           <Button size="icon" color="gray" onPress={handlePreviousStep}>
             <ArrowLeftIcon size={20} color={colors.black[700]} />
