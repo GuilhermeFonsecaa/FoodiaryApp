@@ -9,13 +9,18 @@ import { Button } from "../../components/Button";
 import { router } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "../../schemas/signupSchema";
+import { signUpSchema } from "../../schemas/signupSchema";
+import { BirthDateStep } from "../../components/SignUpSteps.tsx/BirthDate";
+import { HeightStep } from "../../components/SignUpSteps.tsx/HeightStep";
+import { WeightStep } from "../../components/SignUpSteps.tsx/WeigthStep";
+import { ActivityLevelStep } from "../../components/SignUpSteps.tsx/ActivityLevelStep";
+import { AccountStep } from "../../components/SignUpSteps.tsx/AccountStep";
 
 export default function SignUp() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
   const form = useForm({
-    resolver: zodResolver(signupSchema),
+    resolver: zodResolver(signUpSchema),
   });
 
   const steps = [
@@ -30,6 +35,36 @@ export default function SignUp() {
       title: "Qual é seu gênero",
       subtitle: "Seu gênero influencia no tipo da dieta",
       Component: GenderStep,
+    },
+    {
+      icon: "📅",
+      title: "Qual é sua data de nascimento?",
+      subtitle: "Sua idade ajuda a personalizar sua dieta",
+      Component: BirthDateStep,
+    },
+    {
+      icon: "📏",
+      title: "Qual é sua altura?",
+      subtitle: "Sua altura é importante para o cálculo do IMC",
+      Component: HeightStep,
+    },
+    {
+      icon: "⚖️",
+      title: "Qual é seu peso atual?",
+      subtitle: "Seu peso atual nos ajuda a criar sua dieta",
+      Component: WeightStep,
+    },
+    {
+      icon: "🏃",
+      title: "Qual é seu nível de atividade?",
+      subtitle: "Isso nos ajuda a calcular suas necessidades calóricas",
+      Component: ActivityLevelStep,
+    },
+    {
+      icon: "📝",
+      title: "Crie sua conta",
+      subtitle: "Finalize seu cadastro para começar sua jornada",
+      Component: AccountStep,
     },
   ];
 
