@@ -8,7 +8,7 @@ goal: z.enum(['lose', 'maintain', 'gain']),
   weight: z.string().min(1, 'Peso é obrigatório'),
   activityLevel: z.string(),
   name: z.string().min(1, 'Nome é obrigatório'),
-  email: z.string().email('Email inválido'),
+  email: z.email('Email inválido'),
   password: z.string().min(8, 'Senha deve ter pelo menos 8 caracteres'),
 });
 

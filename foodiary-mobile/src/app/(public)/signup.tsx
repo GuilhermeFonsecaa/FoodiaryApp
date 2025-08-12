@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AuthLayout } from "../../components/AuthLayout";
 import { GoalStep } from "../../components/SignUpSteps.tsx/GoalStep";
 import { GenderStep } from "../../components/SignUpSteps.tsx/GenderStep";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { colors } from "../../styles/colors";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react-native";
 import { Button } from "../../components/Button";
@@ -15,6 +15,7 @@ import { HeightStep } from "../../components/SignUpSteps.tsx/HeightStep";
 import { WeightStep } from "../../components/SignUpSteps.tsx/WeigthStep";
 import { ActivityLevelStep } from "../../components/SignUpSteps.tsx/ActivityLevelStep";
 import { AccountStep } from "../../components/SignUpSteps.tsx/AccountStep";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function SignUp() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -80,7 +81,33 @@ export default function SignUp() {
     setCurrentStepIndex((prevState) => prevState + 1);
   }
 
+  const { signUp } = useAuth();
+
+  const handleSubmit = form.handleSubmit(async (formData) => {
+    try {
+      const [day, month, year] = formData.birthDate.split("/");
+
+      await signUp({
+        height: Number(formData.height),
+        weight: Number(formData.weight),
+        activityLevel: Number(formData.activityLevel),
+        gender: formData.gender,
+        goal: formData.goal,
+        birthDate: `${year}-${month}-${day}`,
+        account: {
+          email: formData.email,
+          name: formData.name,
+          password: formData.password,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Erro ao criar a conta. Tente novamente.");
+    }
+  });
+
   const currentStep = steps[currentStepIndex];
+  const isLastStep = currentStepIndex === steps.length - 1;
 
   return (
     <AuthLayout
@@ -96,9 +123,16 @@ export default function SignUp() {
           <Button size="icon" color="gray" onPress={handlePreviousStep}>
             <ArrowLeftIcon size={20} color={colors.black[700]} />
           </Button>
-          <Button size="icon" onPress={handleNextStep}>
-            <ArrowRightIcon size={20} color={colors.black[700]} />
-          </Button>
+
+          {isLastStep ? (
+            <Button className="flex-1" onPress={handleSubmit}>
+              Criar Conta
+            </Button>
+          ) : (
+            <Button size="icon" onPress={handleNextStep}>
+              <ArrowRightIcon size={20} color={colors.black[700]} />
+            </Button>
+          )}
         </View>
       </View>
     </AuthLayout>

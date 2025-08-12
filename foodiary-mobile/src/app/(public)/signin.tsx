@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { AuthLayout } from "../../components/AuthLayout";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
@@ -8,6 +8,7 @@ import { colors } from "../../styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signinSchema } from "../../schemas/signinSchema";
 import { Controller, useForm } from "react-hook-form";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function SignIn() {
   const form = useForm({
@@ -18,8 +19,15 @@ export default function SignIn() {
     },
   });
 
-  const handleSubmit = form.handleSubmit((formData) => {
-    console.log(JSON.stringify(formData, null, 2));
+  const { signIn } = useAuth();
+
+  const handleSubmit = form.handleSubmit(async (formData) => {
+    try {
+      await signIn(formData);
+    } catch (error) {
+      Alert.alert("Credenciais Inválidas")
+      console.log(error);
+    }
   });
 
   return (
@@ -68,7 +76,9 @@ export default function SignIn() {
           <Button onPress={router.back} size="icon" color="gray">
             <ArrowLeftIcon size={20} color={colors.black[700]} />
           </Button>
-          <Button onPress={handleSubmit} className="flex-1">Entrar</Button>
+          <Button onPress={handleSubmit} className="flex-1">
+            Entrar
+          </Button>
         </View>
       </View>
     </AuthLayout>
