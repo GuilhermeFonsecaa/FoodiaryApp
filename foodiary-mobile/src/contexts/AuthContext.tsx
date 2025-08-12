@@ -1,4 +1,6 @@
+import { useMutation } from "@tanstack/react-query";
 import { createContext, useCallback } from "react";
+import { httpClient } from "../services/httpClient";
 
 type SignInParams = {
   email: string;
@@ -29,12 +31,19 @@ interface AuthContextProps {
 export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const signIn = useCallback(async (params: SignInParams) => {
-    console.log(params);
-  }, []);
-  const signUp = useCallback(async (params: SignUpParams) => {
-    console.log(params);
-  }, []);
+  const { mutateAsync: signIn } = useMutation({
+    mutationFn: async (params: SignInParams) => {
+      const { data } = await httpClient.post("/signin", params);
+      console.log(data)
+    },
+  });
+
+  const { mutateAsync: signUp } = useMutation({
+    mutationFn: async (params: SignUpParams) => {
+       const { data } = await httpClient.post("/signup", params);
+       console.log(data)
+    },
+  });
 
   return (
     <AuthContext.Provider
