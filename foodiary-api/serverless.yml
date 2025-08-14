@@ -21,6 +21,7 @@ provider:
         - Effect: Allow
           Action:
             - s3:PutObject
+            - s3:GetObject
           Resource: !Sub "${UploadsBucket.Arn}/*" # !Sub -> usado para interpolar
         - Effect: Allow
           Action:
