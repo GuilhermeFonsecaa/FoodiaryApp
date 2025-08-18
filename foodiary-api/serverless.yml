@@ -12,6 +12,7 @@ provider:
   architecture: arm64
   environment:
     DATABASE_URL: ${env:DATABASE_URL}
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
     JWT_SECRET: ${env:JWT_SECRET}
     BUCKET_NAME: !Ref UploadsBucket
     MEALS_QUEUE_URL: !Ref MealsQueue
@@ -88,10 +89,10 @@ functions:
           existing: true
           forceDeploy: true
 
-  processMeal: 
+  processMeal:
     handler: src/functions/processMeal.handler
-    events: 
-      - sqs: 
+    events:
+      - sqs:
           arn: !GetAtt MealsQueue.Arn
           batchSize: 1 #Quando uma mensagem chegar na fila MealsQueue, envia 1 mensagem por vez para a função Lambda
 
