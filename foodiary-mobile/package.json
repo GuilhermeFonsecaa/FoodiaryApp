@@ -36,7 +36,8 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^3.4.17",
     "zod": "^4.0.17",
-    "@react-native-async-storage/async-storage": "2.1.2"
+    "@react-native-async-storage/async-storage": "2.1.2",
+    "expo-file-system": "~18.1.11"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

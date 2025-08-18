@@ -51,7 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     async function load() {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       const data = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
       setToken(data);
       setIsLoadingToken(false);
@@ -62,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function run() {
       if (!token) {
-        httpClient.defaults.headers.common["Authorization"] = `Bearer ${null}`;
+        httpClient.defaults.headers.common["Authorization"] = null;
         return;
       }
 
