@@ -29,7 +29,7 @@ export function MealsList() {
     queryFn: async () => {
       const { data } = await httpClient.get<{ meals: Meals[] }>("/meals", {
         params: {
-          date: "2025-08-13",
+          date: "2025-08-19",
         },
       });
 
