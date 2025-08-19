@@ -63,7 +63,7 @@ export class ProcessMeal {
               quantity: "2 fatias",
               calories: 100,
               proteins: 200,
-              carbohydraters: 300,
+              carbohydrates: 300,
               fats: 400,
             },
           ],
