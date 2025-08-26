@@ -131,6 +131,7 @@ export function MealsList() {
     },
   });
 
+  //sempre que voltar ao foco nesta página faz o refetch
   useFocusEffect(
     useCallback(() => {
       refetch();
