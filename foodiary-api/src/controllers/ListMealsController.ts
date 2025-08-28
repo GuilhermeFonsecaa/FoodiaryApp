@@ -1,4 +1,4 @@
-import { and, eq, gte, lte } from "drizzle-orm";
+import { and, desc, eq, gte, lte } from "drizzle-orm";
 import { db } from "../db";
 import { mealsTable } from "../db/schema";
 import { HttpResponse, ProtectedHttpRequest } from "../types/Http";
@@ -31,8 +31,9 @@ export class ListMealsController {
         eq(mealsTable.userId, userId),
         gte(mealsTable.createdAt, data.date), //quando createdAt é maior ou igual a data que o usuário colocou
         lte(mealsTable.createdAt, endDate), //menor ou igual a endDate
-        eq(mealsTable.status, 'success')
+        eq(mealsTable.status, "success")
       ),
+      orderBy: desc(mealsTable.createdAt),
     });
 
     return ok({
